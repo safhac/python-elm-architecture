@@ -8,21 +8,23 @@
 [Model] 
 - represents the 'state' so it's a function that returns state
 
+
+
 [Update]
 - a function that updates the Model or state
-the arguments are the old model and the message and the return type is Model
-def Update(model: Mode, msg: MSG) -> Model:
-    ...
+- arguments are the old model and the message
+- the return type is the new Model e.g `def Update(model: Mode, msg: MSG) -> Model:...`
+    
 
 [MSG]
-- the message - elm creates types to represent message
+- the message   
+- elm usually uses types to represent the event
 so imagine creating a class to represent an event in the program
 
  
 [View]
 - a function that displays the state [Model] - in Elm it's HTML
-def View(model: Model) -> Html[Model]:
-    ...
+`def View(model: Model) -> Html[Model]:...`
 
 [init]
 - since in Elm there are no null or undefined
