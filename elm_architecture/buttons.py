@@ -2,22 +2,26 @@
 
 import asyncio
 import json
+from enum import IntEnum
 import typing as t
 
+
 # MSG labels
-Increment: t.Callable[[...], int] = 1
-Decrement: t.Callable[[...], int] = -1
+class IncDec(IntEnum):
+    Increment = 1
+    Decrement = -1
+
 
 # Model == state
-Model: int = 0
+Model: t.TypeAlias = int
 
 # MSG (we defined only 2 possible messages)
-MSG = Increment | Decrement
+MSG = IncDec.Increment | IncDec.Decrement
 
 # the update function updates the model and returns the updated Model
 # arguments are the old state and our predefined message
 # the return is the new state
-Update: t.Callable[[Model, MSG], int]
+Update: t.Callable[[Model, MSG], Model]
 
 # the view function displays state
 # in Elm it's HTML
@@ -28,9 +32,9 @@ init: Model = 0
 
 async def Update(model: Model, msg: MSG) -> Model:
     match msg:
-        case 1:
+        case IncDec.Increment:
             return model + 1
-        case -1:
+        case IncDec.Decrement:
             return model - 1
         case _:
             print('unknown MSG')
@@ -43,7 +47,7 @@ async def View(model: Model) -> str:
 
 async def main(init: Model, update: Update, view: View) -> None:
     await View(init)
-    model = await Update(init, Increment)
+    model = await Update(init, IncDec.Increment)
     await View(model)
 
 
